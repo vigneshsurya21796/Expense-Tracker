@@ -1,8 +1,8 @@
-class Errorhandler extends Error {
+class Apierror extends Error {
   constructor(message, statusCode) {
     super(message);
     this.statusCode = statusCode;
     Error.captureStackTrace(this, this.constructor);
   }
 }
-module.exports = Errorhandler;
+module.exports = Apierror;
