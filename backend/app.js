@@ -1,5 +1,9 @@
 const express = require("express");
 const app = express();
+
+// Render sits the app behind a reverse proxy — trust the first hop so
+// req.ip (and express-rate-limit's IP-based keying) reflects the real client
+app.set("trust proxy", 1);
 const errorhandler = require("./middlewars/error");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");

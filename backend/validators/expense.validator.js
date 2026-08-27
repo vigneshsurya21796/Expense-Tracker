@@ -1,4 +1,5 @@
 const { z } = require("zod");
+const Apierror = require("../utils/Apierror");
 
 const CATEGORIES = [
   "Food",
@@ -56,8 +57,7 @@ const updateExpenseSchema = z.object({
 exports.createExpenseValidator = (req, res, next) => {
   const result = createExpenseSchema.safeParse(req.body);
   if (!result.success) {
-    res.status(400);
-    return next(new Error(result.error.issues[0].message));
+    return next(new Apierror(result.error.issues[0].message, 400));
   }
   next();
 };
@@ -65,8 +65,7 @@ exports.createExpenseValidator = (req, res, next) => {
 exports.updateExpenseValidator = (req, res, next) => {
   const result = updateExpenseSchema.safeParse(req.body);
   if (!result.success) {
-    res.status(400);
-    return next(new Error(result.error.issues[0].message));
+    return next(new Apierror(result.error.issues[0].message, 400));
   }
   next();
 };

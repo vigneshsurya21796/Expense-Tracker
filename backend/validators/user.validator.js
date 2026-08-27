@@ -1,4 +1,5 @@
 const { z } = require("zod");
+const Apierror = require("../utils/Apierror");
 
 const budgetSchema = z.object({
   budgetLimit: z
@@ -22,8 +23,7 @@ const passwordSchema = z.object({
 exports.budgetValidator = (req, res, next) => {
   const result = budgetSchema.safeParse(req.body);
   if (!result.success) {
-    res.status(400);
-    return next(new Error(result.error.issues[0].message));
+    return next(new Apierror(result.error.issues[0].message, 400));
   }
   next();
 };
@@ -31,8 +31,7 @@ exports.budgetValidator = (req, res, next) => {
 exports.passwordValidator = (req, res, next) => {
   const result = passwordSchema.safeParse(req.body);
   if (!result.success) {
-    res.status(400);
-    return next(new Error(result.error.issues[0].message));
+    return next(new Apierror(result.error.issues[0].message, 400));
   }
   next();
 };

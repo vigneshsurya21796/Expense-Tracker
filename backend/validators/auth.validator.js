@@ -1,4 +1,5 @@
 const { z } = require("zod");
+const Apierror = require("../utils/Apierror");
 
 const registerSchema = z.object({
   name: z
@@ -30,8 +31,7 @@ const loginSchema = z.object({
 exports.registerValidator = (req, res, next) => {
   const result = registerSchema.safeParse(req.body);
   if (!result.success) {
-    res.status(400);
-    return next(new Error(result.error.issues[0].message));
+    return next(new Apierror(result.error.issues[0].message, 400));
   }
   next();
 };
@@ -39,8 +39,7 @@ exports.registerValidator = (req, res, next) => {
 exports.loginValidator = (req, res, next) => {
   const result = loginSchema.safeParse(req.body);
   if (!result.success) {
-    res.status(400);
-    return next(new Error(result.error.issues[0].message));
+    return next(new Apierror(result.error.issues[0].message, 400));
   }
   next();
 };
